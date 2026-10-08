@@ -1,0 +1,432 @@
+# Q1. Type Casting & Numeric Operations
+
+integer_input = input("Integer: ")
+decimal_input = input("Decimal: ")
+
+try:
+    integer_value = int(integer_input)
+    float_value = float(decimal_input)
+
+    print(f"Integer Value : {integer_value}")
+    print(f"Integer Type  : {type(integer_value).__name__}")
+
+    print(f"Float Value   : {float_value}")
+    print(f"Float Type    : {type(float_value).__name__}")
+
+    rounded_value = round(float_value)
+    print(f"Rounded Value : {rounded_value}")
+
+    divisor = int(float_value)
+
+    if divisor == 0:
+        print("Cannot perform division by zero")
+    else:
+        print(f"{integer_value} / {divisor} = {integer_value / divisor:.4f}")
+        print(f"{integer_value} // {divisor} = {integer_value // divisor}")
+        print(f"{integer_value} % {divisor} = {integer_value % divisor}")
+
+    print(f"{integer_value} ** 2 = {integer_value ** 2}")
+
+except ValueError:
+    print("Invalid numeric input")
+
+
+# Q2. Caesar Cipher
+
+message = input("Message: ")
+shift = int(input("Shift: "))
+
+encrypted = ""
+
+for char in message:
+
+    if 'A' <= char <= 'Z':
+        encrypted += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
+
+    elif 'a' <= char <= 'z':
+        encrypted += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
+
+    else:
+        encrypted += char
+
+decrypted = ""
+
+for char in encrypted:
+
+    if 'A' <= char <= 'Z':
+        decrypted += chr((ord(char) - ord('A') - shift) % 26 + ord('A'))
+
+    elif 'a' <= char <= 'z':
+        decrypted += chr((ord(char) - ord('a') - shift) % 26 + ord('a'))
+
+    else:
+        decrypted += char
+
+print("Encrypted:", encrypted)
+print("Decrypted:", decrypted)
+
+
+# Q3. Number Analyzer
+
+start = int(input("Start: "))
+end = int(input("End: "))
+
+print("Number  Prime  Perfect  Armstrong  Palindrome  Digit Sum  Digits  Binary")
+
+for number in range(start, end + 1):
+
+    # Prime
+    if number < 2:
+        prime = "No"
+    else:
+        prime = "Yes"
+
+        for i in range(2, number):
+            if number % i == 0:
+                prime = "No"
+                break
+
+    # Digit Sum and Digit Count
+    temp = abs(number)
+    digit_sum = 0
+    digit_count = 0
+
+    if temp == 0:
+        digit_count = 1
+
+    while temp > 0:
+        digit = temp % 10
+        digit_sum += digit
+        digit_count += 1
+        temp //= 10
+
+    # Perfect Number
+    divisor_sum = 0
+
+    if number > 0:
+        for i in range(1, number):
+            if number % i == 0:
+                divisor_sum += i
+
+    if number > 0 and divisor_sum == number:
+        perfect = "Yes"
+    else:
+        perfect = "No"
+
+    # Armstrong Number
+    temp = abs(number)
+    armstrong_sum = 0
+
+    if temp == 0:
+        armstrong_sum = 0
+    else:
+        while temp > 0:
+            digit = temp % 10
+            armstrong_sum += digit ** digit_count
+            temp //= 10
+
+    if number >= 0 and armstrong_sum == number:
+        armstrong = "Yes"
+    else:
+        armstrong = "No"
+
+    # Palindrome
+    original = abs(number)
+    temp = original
+    reverse = 0
+
+    while temp > 0:
+        digit = temp % 10
+        reverse = reverse * 10 + digit
+        temp //= 10
+
+    if original == reverse:
+        palindrome = "Yes"
+    else:
+        palindrome = "No"
+
+    # Binary
+    if number == 0:
+        binary = "0"
+    else:
+        temp = number
+        binary = ""
+
+        while temp > 0:
+            binary = str(temp % 2) + binary
+            temp //= 2
+
+    print(
+        f"{number:<7} {prime:<6} {perfect:<8} "
+        f"{armstrong:<10} {palindrome:<11} "
+        f"{digit_sum:<10} {digit_count:<7} {binary}"
+    )
+
+
+# Q4. Number System Converter + GCD / LCM
+
+number1 = int(input("Number 1: "))
+number2 = int(input("Number 2: "))
+
+def convert_base(number, base):
+    digits = "0123456789ABCDEF"
+
+    if number == 0:
+        return "0"
+
+    result = ""
+
+    while number > 0:
+        remainder = number % base
+        result = digits[remainder] + result
+        number //= base
+
+    return result
+
+
+binary = convert_base(number1, 2)
+octal = convert_base(number1, 8)
+hexadecimal = convert_base(number1, 16)
+
+a = number1
+b = number2
+
+while b != 0:
+    remainder = a % b
+    a = b
+    b = remainder
+
+gcd = a
+lcm = (number1 * number2) // gcd
+
+print(f"Binary      : {binary}")
+print(f"Octal       : {octal}")
+print(f"Hexadecimal : {hexadecimal}")
+print(f"GCD         : {gcd}")
+print(f"LCM         : {lcm}")
+
+
+# Q5. Two-Divisor FizzBuzz
+
+n = int(input("N: "))
+
+divisor1 = int(input("Divisor 1: "))
+word1 = input("Word 1: ")
+
+divisor2 = int(input("Divisor 2: "))
+word2 = input("Word 2: ")
+
+for i in range(1, n + 1):
+
+    if i % divisor1 == 0 and i % divisor2 == 0:
+        print(word1 + word2)
+
+    elif i % divisor1 == 0:
+        print(word1)
+
+    elif i % divisor2 == 0:
+        print(word2)
+
+    else:
+        print(i)
+
+
+# Q6. Student Mark Conversion & Result Analyzer
+
+students = int(input("Students: "))
+
+print("Student  Total  Average  Grade")
+
+for i in range(students):
+
+    data = input()
+
+    parts = data.split(":")
+
+    name = parts[0].strip()
+    mark_values = parts[1].strip().split()
+
+    marks = []
+    valid = True
+
+    for value in mark_values:
+
+        try:
+            mark = float(value)
+
+            if mark < 0 or mark > 100:
+                valid = False
+                break
+
+            marks.append(mark)
+
+        except ValueError:
+            valid = False
+            break
+
+    if not valid:
+        print(f"{name:<8} Invalid marks")
+        continue
+
+    total = sum(marks)
+    average = total / len(marks)
+
+    if average >= 90:
+        grade = "A"
+    elif average >= 80:
+        grade = "B"
+    elif average >= 70:
+        grade = "C"
+    elif average >= 60:
+        grade = "D"
+    else:
+        grade = "F"
+
+    print(f"{name:<8} {total:<6.0f} {average:<8.2f} {grade}")
+
+
+# Q7. Digital Payment Transaction Analyzer
+
+transactions = int(input("Transactions: "))
+
+successful = []
+rejected = 0
+
+for i in range(transactions):
+
+    value = input()
+
+    try:
+        amount = float(value)
+
+        if amount < 0:
+            rejected += 1
+        else:
+            successful.append(amount)
+
+    except ValueError:
+        rejected += 1
+
+
+if len(successful) > 0:
+
+    total = sum(successful)
+    highest = max(successful)
+    lowest = min(successful)
+    average = total / len(successful)
+
+else:
+
+    total = 0
+    highest = 0
+    lowest = 0
+    average = 0
+
+
+print(f"Successful Transactions : {len(successful)}")
+print(f"Total Amount            : ₹{total:.2f}")
+print(f"Highest Transaction     : ₹{highest:.2f}")
+print(f"Lowest Transaction      : ₹{lowest:.2f}")
+print(f"Average Transaction     : ₹{average:.2f}")
+print(f"Rejected Transactions   : {rejected}")
+
+
+# Q8. String to Integer (atoi)
+
+text = input()
+
+i = 0
+length = len(text)
+
+# Skip spaces
+while i < length and text[i] == " ":
+    i += 1
+
+sign = 1
+
+# Check sign
+if i < length and text[i] == "-":
+    sign = -1
+    i += 1
+
+elif i < length and text[i] == "+":
+    i += 1
+
+result = 0
+
+# Convert digits
+while i < length and '0' <= text[i] <= '9':
+
+    digit = ord(text[i]) - ord('0')
+
+    result = result * 10 + digit
+
+    i += 1
+
+result = result * sign
+
+print(result)
+
+
+# Q9. Add Binary
+
+a = input("a = ")
+b = input("b = ")
+
+i = len(a) - 1
+j = len(b) - 1
+
+carry = 0
+result = ""
+
+while i >= 0 or j >= 0 or carry:
+
+    if i >= 0:
+        bit_a = int(a[i])
+    else:
+        bit_a = 0
+
+    if j >= 0:
+        bit_b = int(b[j])
+    else:
+        bit_b = 0
+
+    total = bit_a + bit_b + carry
+
+    result = str(total % 2) + result
+
+    carry = total // 2
+
+    i -= 1
+    j -= 1
+
+print(result)
+
+
+# Q10. Happy Number
+
+number = int(input())
+
+seen = set()
+
+while number != 1 and number not in seen:
+
+    seen.add(number)
+
+    digit_sum = 0
+    temp = number
+
+    while temp > 0:
+
+        digit = temp % 10
+
+        digit_sum += digit * digit
+
+        temp //= 10
+
+    number = digit_sum
+
+if number == 1:
+    print(True)
+else:
+    print(False)
